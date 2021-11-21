@@ -24,6 +24,7 @@ class CreateUsersTable extends Migration
             $table->string('short_token')->nullable();
             $table->string('long_token')->nullable();
             $table->string('company')->nullable();
+            $table->string('role')->nullable();
             $table->string('database_name')->nullable();
             $table->softDeletes();
             $table->rememberToken();

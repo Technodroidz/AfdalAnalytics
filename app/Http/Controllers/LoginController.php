@@ -32,6 +32,7 @@ class LoginController extends Controller
                 'email'         => 'required|email|unique:users',
                 'password'      => 'required|min:6',
                 'company'       => 'required',
+                'working_as'    => 'required',
                 'terms'         => 'required'
             ];
 
@@ -41,18 +42,19 @@ class LoginController extends Controller
                 'email'         => 'Email',
                 'password'      => 'Password',
                 'company'       => 'Company',
+                'working_as'    => 'Working As',
                 'terms'         => 'Afdal Analytics Terms'
             ];
 
             $validator = Validator::make($request->all(), $validation_array,[],$validation_attributes);
-            $validation_message   = $this->get_message_from_validator_object($validator->errors());
+            $validation_message   = get_message_from_validator_object($validator->errors());
             
             if($validator->fails()){
                 return back()->with('error', $validation_message);
             }else{
 
-                $long_token     = $this->generateStringLogToken();
-                $short_token    = $this->generateStringSortToken();
+                $long_token     = generateStringLogToken();
+                $short_token    = generateStringSortToken();
 
                 $data = [
                     'first_name'      => $request->first_name,
@@ -60,6 +62,7 @@ class LoginController extends Controller
                     'email'       => $request->email,
                     'password'    => bcrypt($request->password),
                     'company'     => $request->company,
+                    'role'        => $request->working_as,
                     'short_token' => $short_token,
                     'long_token'  => $long_token,
                 ];
@@ -124,7 +127,7 @@ class LoginController extends Controller
                     ];
 
                     UserSubscription::insert($insert_array);
-                    return Redirect::to('http://localhost/AfdalAnalyticsCRM/userhome');
+                    return Redirect::to('http://afdalanalyticscrm.local/userhome');
                     // code for routing to tenant dashboard here
 
                 }else{
@@ -134,35 +137,17 @@ class LoginController extends Controller
         }    
     }
 
-    public function get_message_from_validator_object($validator_object)
-    {
-        $array = json_decode(json_encode($validator_object),1);
-        $message = '';
-        $message_array = [];
-        $i = 0;
-        foreach ($array as $key => $value) {
-            foreach ($value as $k => $val) {
-                if(!in_array($val,$message_array)){
-                    $message_array[] = $val;
-                    $tilde    = $i == 0 ? '':" ";
-                    $message .= $tilde.$val;
-                    $i++;
-                }
-            }
-        }
-        return $message;
-    }
 
-    public function generateStringLogToken()
-    {
-        $number =(Str::random(15));
-        return $number.mt_rand(10000, 99999);
+    public function signup3(Request $request){
+        return view('frontend/signup3');
     }
-
-    public function generateStringSortToken()
-    {
-        $var = Str::random(5);
-        return $var;
+    
+     public function signup4(Request $request){
+        return view('frontend/signup4');
+    }
+    
+     public function signup5(Request $request){
+        return view('frontend/signup5');
     }
     
 

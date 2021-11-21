@@ -26,6 +26,7 @@ class User extends Authenticatable
         'short_token',
         'long_token',
         'company',
+        'role',
         'database_name',
     ];
 
