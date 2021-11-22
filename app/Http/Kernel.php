@@ -63,5 +63,8 @@ class Kernel extends HttpKernel
         'signed' => \Illuminate\Routing\Middleware\ValidateSignature::class,
         'throttle' => \Illuminate\Routing\Middleware\ThrottleRequests::class,
         'verified' => \Illuminate\Auth\Middleware\EnsureEmailIsVerified::class,
+        'restrict.registered.user' => \App\Http\Middleware\RestrictRegisterUser::class,
+        'configure.multi_tenant_db'=> \App\Http\Middleware\ConfigureMultiTenantDB::class,
+        'tenant.domain' => \App\Http\Middleware\CheckTenantDomain::class,
     ];
 }

@@ -52,9 +52,12 @@ return [
     |
     */
 
-    'url' => env('APP_URL', 'http://localhost'),
+    'url' => env('APP_URL', 'http://afdalanalytics.local'),
 
     'asset_url' => env('ASSET_URL', null),
+
+
+    'domain' => env('APP_DOMAIN', 'afdalanalytics.local'),
 
     /*
     |--------------------------------------------------------------------------

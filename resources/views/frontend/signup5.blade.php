@@ -84,7 +84,7 @@
                            <!--   </div>-->
                            <!--</div>-->
                            <div class="form-group text-center mt-5"> 
-                              <a href="{{ url('userhome') }}" class="btn btn-warning btn-sm">{{__('Finish')}}</a>         
+                              <a href="{{ url('tenantredirect') }}" class="btn btn-warning btn-sm">{{__('Finish')}}</a>         
                            </div>
                         </form>
                      </div>

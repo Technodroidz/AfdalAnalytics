@@ -125,10 +125,10 @@ class LoginController extends Controller
                         'is_trial'      => 1,
                         'created_at'    => date('Y-m-d H:i:s'),
                     ];
-
+                    $request->session()->put('company',$request->company);
+                    $request->session()->put('long_token',$request->long_token);
                     UserSubscription::insert($insert_array);
-                    return Redirect::to('http://afdalanalyticscrm.local/userhome');
-                    // code for routing to tenant dashboard here
+                    return redirect()->route('signup-2');
 
                 }else{
                     return back()->with('error', 'Invalid Login Credentials.');       
@@ -148,6 +148,11 @@ class LoginController extends Controller
     
      public function signup5(Request $request){
         return view('frontend/signup5');
+    }
+
+    public function tenantRedirect(Request $request){
+        $company = session()->get('company');
+        return redirect()->route('tenant.userhome', ['subdomain' => $company]);
     }
     
 

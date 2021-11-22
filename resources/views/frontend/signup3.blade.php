@@ -150,7 +150,7 @@
                      </ul>
                   </div>
                   
-                  <a href="javascript:void(0);" style="color:#ed8225;text-decoration:underline;text-align:center;display:block;">Skip Connections for now</a>
+                  <a href="{{url('signup-3')}}" style="color:#ed8225;text-decoration:underline;text-align:center;display:block;">Skip Connections for now</a>
                </div>
             </div>
          </div>
