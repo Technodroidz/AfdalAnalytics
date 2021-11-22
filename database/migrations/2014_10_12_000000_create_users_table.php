@@ -26,6 +26,8 @@ class CreateUsersTable extends Migration
             $table->string('company')->nullable();
             $table->string('role')->nullable();
             $table->string('database_name')->nullable();
+            $table->string('provider')->nullable();
+            $table->string('provider_id')->nullable();
             $table->softDeletes();
             $table->rememberToken();
             $table->timestamps();

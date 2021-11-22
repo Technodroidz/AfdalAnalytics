@@ -28,6 +28,8 @@ class User extends Authenticatable
         'company',
         'role',
         'database_name',
+        'provider', 
+        'provider_id',
     ];
 
     /**
