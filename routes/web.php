@@ -102,7 +102,7 @@ Route::get('/following', [TwitterController::class,'following']);
 Route::get('/userhome',[TenantController::class, 'userhome'])->name('userhome');
 Route::get('/upgradeplan',[TenantController::class, 'upgradeplan'])->name('upgradeplan');
 Route::get('/userreview',[TenantController::class, 'userreview'])->name('userreview');
-Route::get('/dashboard',[TenantController::class, 'dashboard'])->name('dashboard');
+Route::get('/dashboard1',[TenantController::class, 'dashboard'])->name('dashboard1');
 Route::get('/dashboard2',[TenantController::class, 'dashboard2'])->name('dashboard2');
 Route::get('/connections',[TenantController::class, 'connections'])->name('connections');
 Route::get('/help',[TenantController::class, 'help'])->name('help');

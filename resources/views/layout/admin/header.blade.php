@@ -190,7 +190,7 @@
                <!-- Sidebar navigation-->
                <nav class="sidebar-nav">
                   <ul id="sidebarnav">
-                     <li><a class="waves-effect waves-dark" href="{{ url('dashboard') }}" aria-expanded="false"><i class="fas fa-box"></i><span class="hide-menu">Dashboard</span></a>    
+                     <li><a class="waves-effect waves-dark" href="{{ url('dashboard1') }}" aria-expanded="false"><i class="fas fa-box"></i><span class="hide-menu">Dashboard</span></a>    
                      </li>
                      <li><a class="waves-effect waves-dark" href="{{ url('user-management') }}" aria-expanded="false"><i class="fas fa-user"></i><span class="hide-menu">User Management</span></a>    
                      </li>
