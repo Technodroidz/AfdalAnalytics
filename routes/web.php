@@ -4,6 +4,9 @@ use Illuminate\Support\Facades\Route;
 use App\Http\Controllers\WebsiteController;
 use App\Http\Controllers\LoginController;
 use App\Http\Controllers\SuperAdminController;
+use App\Http\Controllers\TwitterController;
+use App\Http\Controllers\TenantController;
+use App\Http\Controllers\UserProfileController;
 
 /*
 |--------------------------------------------------------------------------
@@ -29,10 +32,9 @@ Route::get('/signup-2',[LoginController::class, 'signup3'])->name('signup-2');
 Route::get('/signup-3',[LoginController::class, 'signup4'])->name('signup-3');
 Route::get('/signup-4',[LoginController::class, 'signup5'])->name('signup-4');
 
-
 //admin routes
-Route::get('/admin',[SuperAdminController::class, 'signin']);
-Route::get('/signin',[SuperAdminController::class, 'signin'])->name('signin');
+Route::get('/admin',[SuperAdminController::class, 'signIn']);
+Route::get('/sign-in',[SuperAdminController::class, 'signIn'])->name('sign-in');
 Route::post('/loging-in',[SuperAdminController::class, 'login'])->name('loging-in');
 Route::get('/dashboard',[SuperAdminController::class, 'index'])->name('dashboard');
 Route::get('/forgot-password',[SuperAdminController::class, 'forgotpassword'])->name('forgotpassword');
@@ -75,10 +77,36 @@ Route::get('/add-knowledge_base',[SuperAdminController::class, 'addknowledgebase
 Route::post('/submit-knowlegebase',[SuperAdminController::class, 'submitknowledgebase']);
 Route::get('/edit-knowledge_base/{id}',[SuperAdminController::class, 'editknowledgebase']);
 Route::get('/delete-knowledge_base/{id}',[SuperAdminController::class, 'deleteknowledgebase']);
-Route::get('logout', function ()
+Route::get('logout-admin', function ()
 {
     auth()->logout();
     Session()->flush();
 
-    return Redirect::to('/signin');
-})->name('logout');
+    return Redirect::to('/sign-in');
+})->name('logout-admin');
+
+//tenant routes
+Route::get('login', [TwitterController::class,'index']);
+Route::get('login/{provider}', [TwitterController::class,'redirectToProvider']);
+Route::get('{provider}/callback', [TwitterController::class,'handleProviderCallback']);
+Route::get('/home', [TwitterController::class,'userTwitterDetails']);
+Route::get('/usertweets/{id}', [TwitterController::class,'userTweets']);
+Route::get('/following', [TwitterController::class,'following']);
+Route::get('/userhome',[TenantController::class, 'userhome'])->name('userhome');
+Route::get('/upgradeplan',[TenantController::class, 'upgradeplan'])->name('upgradeplan');
+Route::get('/userreview',[TenantController::class, 'userreview'])->name('userreview');
+Route::get('/dashboard',[TenantController::class, 'dashboard'])->name('dashboard');
+Route::get('/dashboard2',[TenantController::class, 'dashboard2'])->name('dashboard2');
+Route::get('/connections',[TenantController::class, 'connections'])->name('connections');
+Route::get('/help',[TenantController::class, 'help'])->name('help');
+Route::get('/settings',[TenantController::class, 'settings'])->name('settings');
+Route::get('/template',[TenantController::class, 'template'])->name('template');
+Route::get('/resource',[TenantController::class, 'resource'])->name('resource');
+Route::get('/resource2',[TenantController::class, 'resource2'])->name('resource2');
+Route::get('/contactus',[TenantController::class, 'contactus'])->name('contactus');
+Route::get('/pricing',[TenantController::class, 'pricing'])->name('pricing');
+Route::get('/twitterperformance',[TenantController::class, 'twitterperformance'])->name('twitterperformance');
+Route::get('/googleplaystore',[TenantController::class, 'googleplaystore'])->name('googleplaystore');
+Route::get('/instagraminsight',[TenantController::class, 'instagraminsight'])->name('instagraminsight');
+Route::post('/updateprofile', [UserProfileController::class, 'updateUserProfile']);
+Route::post('/createnewticket', [UserProfileController::class, 'createNewTicket']);

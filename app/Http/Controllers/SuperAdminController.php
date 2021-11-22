@@ -33,7 +33,7 @@ class SuperAdminController extends Controller
         }
     }
 
-    public function signin(Request $request){
+    public function signIn(Request $request){
         return view('admin/signin');
     }
 

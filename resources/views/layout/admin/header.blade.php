@@ -166,7 +166,7 @@
                         <a href="{{ url('profile') }}" class="dropdown-item"><i class="ti-user"></i> My Profile</a>
                         <div class="dropdown-divider"></div>
                         <!-- text-->
-                        <a href="{{ url('logout') }}" class="dropdown-item"><i class="fa fa-power-off"></i> Logout</a>
+                        <a href="{{ url('logout-admin') }}" class="dropdown-item"><i class="fa fa-power-off"></i> Logout</a>
                         <!-- text-->
                      </div>
                   </li>
@@ -215,7 +215,7 @@
                         </ul>
                      </li>
 
-                     <li><a class="waves-effect waves-dark text-warning" href="{{ url('logout') }}" aria-expanded="false"><i class="fas fa-circle"></i><span class="hide-menu">Sign out</span></a> </li>
+                     <li><a class="waves-effect waves-dark text-warning" href="{{ url('logout-admin') }}" aria-expanded="false"><i class="fas fa-circle"></i><span class="hide-menu">Sign out</span></a> </li>
                   </ul>
                </nav>
                <!-- End Sidebar navigation -->
