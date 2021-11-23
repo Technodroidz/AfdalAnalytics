@@ -15,7 +15,11 @@ class TenantController extends Controller
     }
 
     public function upgradeplan(Request $request){
-        return view('tenant/upgradeplan');
+        $getUserData = User::where('id',Auth::user()->id)->first();
+        $trial_subscription = UserSubscription::getTrialSubscription(Auth::User()->id);
+        $paid_subscription = UserSubscription::getPaidSubscription(Auth::User()->id);
+        $data       = ['getUserData' => $getUserData,'trial_subscription' => $trial_subscription,'paid_subscription' => $paid_subscription];
+        return view('tenant/upgradeplan',$data);
     }
 
     public function userreview(Request $request){

@@ -54,18 +54,32 @@
                   </div>
                </div>
             </div> -->
+            @if ($message = Session::get('success'))
+               <div class="alert alert-success alert-block">
+                  <button type="button" class="close" data-dismiss="alert">×</button>    
+                  <strong>{{ $message }}</strong>
+               </div>
+             @endif
+
+            @if ($message = Session::get('error'))
+               <div class="alert alert-danger alert-block">
+                  <button type="button" class="close" data-dismiss="alert">×</button>    
+                  <strong>{{ $message }}</strong>
+               </div>
+            @endif
             <div class="row">
                <div class="col-lg-5 col-sm-6 col-12 mx-auto">
-                  <form class="mt-3">
+                  <form class="mt-3" action="{{url('login')}}" method="post">
+                     @csrf
                      <h3 class="text-center text-white">Welcome</h3>
                      <p class="text-center text-white">Not an user? <a href="{{ url('signup') }}" class="text-white"><u>Signup</u></a></p>
                      <div class="form-group text-right">
                         <label class="d-block text-white">Email</label>
-                        <input type="text" class="form-control text-right" placeholder="name@company.com">
+                        <input type="text" name="email" class="form-control text-right" placeholder="name@company.com">
                      </div>
                      <div class="form-group text-right">
                         <label class="d-block text-white">Password <span class="float-left"><a href="#" class="text-warning"><i class="fas fa-eye mr-2"></i>Show</a></span></label>
-                        <input type="text" class="form-control text-right" placeholder="Password">
+                        <input type="password" name="password" class="form-control text-right" placeholder="Password">
                      </div>
                      <div class="row">
                        <!--  <div class="col-6">
@@ -76,12 +90,13 @@
                         <div class="col-12">
                            <div class="form-group form-check text-right">
                               <label class="form-check-label text-white mr-5" for="exampleCheck1">I agree to the Afdal Analytics Terms.</label>
-                              <input type="checkbox" class="form-check-input" id="exampleCheck1">
+                              <input type="checkbox" name="terms" class="form-check-input" id="exampleCheck1">
                            </div>
                         </div>
                      </div>
                      <div class="form-group text-center mt-3">
-                        <a href="{{ url('team') }}" class="btn btn-warning btn-md">Log In</a>
+                        <!-- <a href="javascript::void(0)" class="btn btn-warning btn-md">Log In</a> -->
+                        <button type="submit" class="btn btn-warning btn-md">{{__('Log In')}}</button>
                      </div>
                   </form>
                </div>

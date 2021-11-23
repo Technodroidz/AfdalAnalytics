@@ -45,6 +45,31 @@
         });
     
     </script>
+    <script>
+        $('#one').click(function(){
+           $('.one').show();
+           $('.two, .three, .four, .five, .default').hide();
+        });
+        $('#two').click(function(){
+           $('.two').show();
+           $('.one, .three, .four, .five, .default').hide();
+        });
+        $('#three').click(function(){
+           $('.three').show();
+           $('.two, .one, .four, .five, .default').hide();
+        });
+        $('#four').click(function(){
+           $('.four').show();
+           $('.two, .three, .one, .five, .default').hide();
+        });
+        $('#five').click(function(){
+           $('.five').show();
+           $('.two, .three, .four, .one, .default').hide();
+        });
+        $('a.mt32').click(function(){
+           $(this).addClass('active').siblings().removeClass('active'); 
+        });
+    </script>
       <script type="text/javascript">
          var options = {
           series: [{
@@ -117,6 +142,11 @@
            $('.modal, .modal-backdrop').removeClass('show'); 
            $('.modal, .modal-backdrop').css('display', 'none');
         });
+     </script>
+     <script>
+         $('.dataList').click(function(){
+            $(this).find('.dataMore').toggleClass('active'); 
+         });
      </script>
 </body>
 </html>

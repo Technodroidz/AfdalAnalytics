@@ -64,7 +64,7 @@
                      </div>
                      <div class="form-group text-right">
                         <label class="d-block text-white">{{__('Password')}} <span class="float-left"><a href="#" class="text-warning"><i class="fas fa-eye mr-2"></i>{{__('Show')}}</a></span></label>
-                        <input type="text" name="password" class="form-control text-right" placeholder="{{__('Password')}}">
+                        <input type="password" name="password" class="form-control text-right" placeholder="{{__('Password')}}">
                      </div>
                      <!-- <div class="form-group text-right">
                         <label class="d-block text-white">{{__('Working At')}}</label>

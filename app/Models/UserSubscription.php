@@ -24,6 +24,17 @@ class UserSubscription extends Authenticatable
         'plan_duration',
         'expiry_date',
         'is_trial',
+        'subscription_status',
     ];
+
+    public static function getTrialSubscription($user_id)
+    {
+        return UserSubscription::where('user_id',$user_id)->where('is_trial',1)->first();
+    }
+
+    public static function getPaidSubscription($user_id)
+    {
+        return UserSubscription::where('user_id',$user_id)->where('is_trial',0)->where('subscription_status','active')->first();
+    }
 
 }

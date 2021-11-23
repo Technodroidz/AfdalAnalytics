@@ -123,10 +123,12 @@ class LoginController extends Controller
                         'plan_duration' => $trial_plan->package_duration,
                         'expiry_date'   => date('Y-m-d H:i:s', strtotime(date('Y-m-d H:i:s'). ' + '.$trial_plan->package_duration.' days')),
                         'is_trial'      => 1,
+                        'subscription_status' => 'trial',
                         'created_at'    => date('Y-m-d H:i:s'),
                     ];
                     $request->session()->put('company',$request->company);
-                    $request->session()->put('long_token',$request->long_token);
+                    $request->session()->put('long_token',$long_token);
+                    $request->session()->put('short_token',$short_token);
                     UserSubscription::insert($insert_array);
                     return redirect()->route('signup-2');
 
@@ -154,6 +156,68 @@ class LoginController extends Controller
         $company = session()->get('company');
         return redirect()->route('tenant.userhome', ['subdomain' => $company]);
     }
-    
+
+    public function login(Request $request){
+        $data = [];
+        if($request->isMethod('post')){
+            $validation_array = [
+                'email'         => 'required|email',
+                'password'      => 'required',
+                'terms'         => 'required'
+            ];
+
+            $validation_attributes = [
+                'email'         => 'Email',
+                'password'      => 'Password',
+                'terms'         => 'Afdal Analytics Terms'
+            ];
+
+            $validator = Validator::make($request->all(), $validation_array,[],$validation_attributes);
+            $validation_message   = get_message_from_validator_object($validator->errors());
+
+            if($validator->fails()){
+                return back()->with('error', $validation_message);       
+            }else{
+                $credentials = $request->only('email', 'password');
+                if(Auth::attempt($credentials)){
+                    $trial_subscription = UserSubscription::getTrialSubscription(Auth::User()->id);
+                    $paid_subscription  = UserSubscription::getPaidSubscription(Auth::User()->id);
+                    $user_subscribed    = true;
+                    $userdetails = User::where('id', Auth::User()->id)->first();
+
+                    if(empty($paid_subscription) && empty($trial_subscription)){
+                        $user_subscribed    = false;
+                    }else{
+                        if(empty($paid_subscription) && !empty($trial_subscription)){
+                            
+                            $expire = strtotime($trial_subscription->expiry_date);
+                            $today  = strtotime("today midnight");
+
+                            if($today >= $expire){
+                                $user_subscribed  = false;
+                            }
+                        }
+                    }
+
+                    if($user_subscribed == true){
+                        session()->put('user_subscribed',true);
+                        $request->session()->put('company',$userdetails->company);
+                        $request->session()->put('long_token',$userdetails->long_token);
+                        $request->session()->put('short_token',$userdetails->short_token);
+                        return redirect()->route('tenant.userhome', ['subdomain' => $userdetails->company]);
+                    }else{
+                        session()->put('user_subscribed',false);
+                        $request->session()->put('company',$userdetails->company);
+                        $request->session()->put('long_token',$userdetails->long_token);
+                        $request->session()->put('short_token',$userdetails->short_token);
+                        session()->put('error', '<p>You plan has been expired.<a style="color: blue" href ="'.route('business_setting_upgrade_plan').'" >Subscribe</a> to use our services</p>');
+                        return redirect()->route('tenant.upgradeplan', ['subdomain' => $userdetails->company]);
+                    }
+                }else{
+                    return back()->with('error', 'Invalid Login Credentials.');
+                }
+            }
+       } 
+    }   
 
 }
