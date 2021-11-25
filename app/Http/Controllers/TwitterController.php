@@ -6,7 +6,7 @@ use Illuminate\Http\Request;
 use Socialite;
 use App\Models\User;
 use Illuminate\Support\Facades\Auth;
-use Symfony\Component\HttpFoundation\Session\Session;
+use Session;
 use Twitter;
 use Symfony\Component\HttpFoundation\File\File;
 use Abraham\TwitterOAuth\TwitterOAuth;
@@ -19,7 +19,7 @@ class TwitterController extends Controller
      *
      * @var string
     */
-    protected $redirectTo = '/home';
+   // protected $redirectTo = '/home';
 
     /**
      * Call the view
@@ -47,7 +47,7 @@ class TwitterController extends Controller
     */
     public function redirectToProvider($provider)
     {
-        return Socialite::driver($provider)->redirect();
+        return Socialite::driver('twitter')->redirect();
     }
 
     /**
@@ -57,17 +57,20 @@ class TwitterController extends Controller
      */
     public function handleProviderCallback($provider)
     {
-        $user = Socialite::driver($provider)->user();
-        $authUser = $this->findOrCreateUser($user, $provider);
-        Auth::login($authUser, true);
-        //print_r($user);die;
-        session()->put('token',$user->token);
-        session()->put('tokensecret',$user->tokenSecret);
-        session()->put('twitter_id',$user->id);
-        session()->put('name',$user->name);
-        session()->put('nickname',$user->nickname);
-        session()->put('avatar',$user->avatar);
-        return redirect($this->redirectTo);
+         //$provider = 'twitter';
+         $user = Socialite::driver($provider)->user();
+         $authUser = $this->findOrCreateUser($user, $provider);
+         Auth::login($authUser, true);
+        // print_r($user);die;
+         session()->put('token',$user->token);
+         session()->put('tokensecret',$user->tokenSecret);
+         session()->put('twitter_id',$user->id);
+         session()->put('name',$user->name);
+         session()->put('nickname',$user->nickname);
+         session()->put('avatar',$user->avatar);
+         //return redirect($this->redirectTo);
+         $company = session()->get('company');
+         return redirect()->route('tenant.home', ['subdomain' => $company]);
     }
 
     /**
@@ -113,4 +116,36 @@ class TwitterController extends Controller
     $twitter_id = Session::get('twitter_id');
     print_r($twitter_id);die;
   }
+
+  public function accountActivity(Request $request){
+    $twitter_id = Session::get('twitter_id');
+     $access_token = Session::get('token');
+    $access_token_secret = Session::get('tokensecret');
+    $apikey = 'ZcBsNRYjXQskH5RR735rSELJG';
+    $apisecret = 'BZnhpxPikQMUqoEJmZGeXPrEcYbpUgYbCa1PfONXEnmWfacnuH';
+    $connection = new TwitterOAuth($apikey, $apisecret, $access_token, $access_token_secret);
+    $res = $this->getWebhookStatus($apikey,$apisecret);
+   // $content = $connection->post("account_activity/all/development/subscriptions");   //Subscribe User to Webhook
+    print_r($res); 
+  }
+  
+   private function RegisterWebhook($apikey, $apisecret, $access_token, $access_token_secret){
+    
+    $connection = new TwitterOAuth($apikey, $apisecret, $access_token, $access_token_secret);
+    $url = "https://afdalanalytics.local/twitterwebhook";
+    $content = $connection->post("account_activity/all/development/webhooks", ["url" => $url]);
+    print_r($content);die;
+   }
+   
+   private function getWebhookStatus($apikey,$apisecret){
+       
+        $connection = new TwitterOAuth($apikey, $apisecret);
+
+        $request_token = $connection->oauth2('oauth2/token', ['grant_type' => 'client_credentials']);
+        $connection = new TwitterOAuth($apikey, $apisecret, $request_token->access_token);
+        $content = $connection->get("account_activity/all/development/subscriptions/list");
+        print "<pre>";
+        print_r($content);
+        
+   }
 }

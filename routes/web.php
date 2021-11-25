@@ -33,6 +33,8 @@ Route::get('/signup-2',[LoginController::class, 'signup3'])->name('signup-2');
 Route::get('/signup-3',[LoginController::class, 'signup4'])->name('signup-3');
 Route::get('/signup-4',[LoginController::class, 'signup5'])->name('signup-4');
 Route::get('/tenantredirect',[LoginController::class, 'tenantRedirect']);
+Route::get('{provider}/callback', [LoginController::class,'handleProviderCallback']);
+Route::get('twitterwebhook', [LoginController::class,'twitterWebhook'])->name('twitterwebhook');
 
 //admin routes
 Route::get('/admin',[SuperAdminController::class, 'signIn']);
@@ -91,13 +93,13 @@ Route::get('logout-admin', function ()
 Route::group(
     [
         'domain' => '{subdomain}.' . 'afdalanalytics.local',
-        'middleware' => 'tenant.domain',
+        'middleware' => ['tenant.domain','configure.multi_tenant_db'],
         'as' => 'tenant.'
     ], function () {
 Route::get('login', [TwitterController::class,'index']);
 Route::get('login/{provider}', [TwitterController::class,'redirectToProvider']);
 Route::get('{provider}/callback', [TwitterController::class,'handleProviderCallback']);
-Route::get('/home', [TwitterController::class,'userTwitterDetails']);
+Route::get('/demo', [TwitterController::class,'userTwitterDetails'])->name('demo');
 Route::get('/usertweets/{id}', [TwitterController::class,'userTweets']);
 Route::get('/following', [TwitterController::class,'following']);
 Route::get('/userhome',[TenantController::class, 'userhome'])->name('userhome');

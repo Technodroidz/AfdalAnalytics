@@ -6,6 +6,10 @@ use Illuminate\Http\Request;
 use App\Models\User;
 use Illuminate\Support\Facades\Auth;
 use Symfony\Component\HttpFoundation\Session\Session;
+use Socialite;
+use Twitter;
+use Abraham\TwitterOAuth\TwitterOAuth;
+use Symfony\Component\HttpFoundation\File\File;
 
 class TenantController extends Controller
 {

@@ -17,6 +17,11 @@ use App\Models\SubscriptionPlan;
 use App\Models\UserSubscription;
 use Illuminate\Support\Facades\DB;
 use Redirect;
+use Socialite;
+use Twitter;
+use Cookie;
+use Abraham\TwitterOAuth\TwitterOAuth;
+use Symfony\Component\HttpFoundation\File\File;
 
 class LoginController extends Controller
 {
@@ -218,6 +223,106 @@ class LoginController extends Controller
                 }
             }
        } 
-    }   
+    }
+    
+     /**
+     * Obtain the user information from Twitter.
+     * Vikash Rai
+     * @return Response
+     */
+    public function handleProviderCallback(Request $request)
+    {   $provider = "twitter";
+        $oauth_token = $_GET['oauth_token'];
+         $oauth_verifier = $_GET['oauth_verifier'];
+         $tokens = $this->access_token($oauth_token, $oauth_verifier);
+        $user = Socialite::driver('twitter')->userFromTokenAndSecret($tokens->oauth_token, $tokens->oauth_token_secret);
+        //$user = Socialite::driver($provider)->user();
+       //$authUser = $this->findOrCreateUser($user, $provider);
+        $authUser = $this->updateUser($user, $provider);
+       // Auth::login($authUser, true);
+       // print_r($user);die;
+           
+           $request->session()->put('token', $user->token);
+           $request->session()->put('tokensecret', $user->tokenSecret);
+           $request->session()->put('twitter_id', $user->id);
+           $request->session()->put('twittername', $user->name);
+           $request->session()->put('nickname', $user->nickname);
+           $request->session()->put('avatar', $user->avatar);
+         
+        $company = session()->get('company');
+        return redirect()->route('tenant.demo', ['subdomain' => $company]);
+    }
+    
+     /**
+     * If a user has registered before using social auth, return the user
+     * else, create a new user object.
+     * @param  $user Socialite user object
+     * @param $provider Social auth provider
+     * @return  User
+     */
+    public function findOrCreateUser($user, $provider)
+    {
+        $authUser = User::where('provider_id', $user->id)->first();
+        if ($authUser) {
+            return $authUser;
+        }
+        return User::create([
+            'first_name'     => $user->name,
+            'email'    => $user->email,
+            'provider' => $provider,
+            'provider_id' => $user->id
+        ]);
+    }
+    
+    private function updateUser($user, $provider){
+       $company = session()->get('company');
+       $email = session()->get('email');
+        $authUser = User::where('email', $email)->first(); 
+        $data = ['provider' => $provider,'provider_id' => $user->id];
+        $where = ['email' => $email];
+       $res = User::where($where)->update($data);
+       $authUsers = User::where('email', $email)->first(); 
+       return $res;
+    }
+    
+    private function access_token($oauth_token, $oauth_verifier)
+        {
+    
+            $config = config('services')['twitter'];
+    
+            $connection = new TwitterOAuth($config['client_id'], $config['client_secret']); 
+    
+            $tokens = $connection->oauth("oauth/access_token", ["oauth_verifier" => $oauth_verifier, "oauth_token" => $oauth_token]);
+    
+            return (object) $tokens;
+        }
+     
+      /**
+       * Twitter webhook for account activity api.
+       * Vikash Rai
+       * @return Response
+      */   
+         public function twitterWebhook(Request $request){
+             // print_r("hello");die;
+                $token = $_GET['crc_token'];
+                echo $this->get_challenge_response($token);
+          }
+  
+    /**
+     * Creates a HMAC SHA-256 hash created from the app TOKEN and
+     * your app Consumer Secret.
+     * @param  token  the token provided by the incoming GET request
+     * @return string
+     */
+        
+       private function get_challenge_response($token) {
+           $APP_CONSUMER_SECRET = 'BZnhpxPikQMUqoEJmZGeXPrEcYbpUgYbCa1PfONXEnmWfacnuH';
+          $hash = hash_hmac('sha256', $token, $APP_CONSUMER_SECRET, true);
+          $response = array(
+            'response_token' => 'sha256=' . base64_encode($hash)
+          );
+          return json_encode($response);
+        }    
+
 
 }
