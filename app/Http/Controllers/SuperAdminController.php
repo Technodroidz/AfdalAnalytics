@@ -14,6 +14,7 @@ use App\Mail\LoginMail;
 use App\Models\Admin;
 use App\Models\SubscriptionPlan;
 use App\Models\knowledgeBase;
+use App\Models\Support;
 use App\Models\SmtpSetting;
 use App\Models\PaymentGateway;
 use App\Models\WebsiteSetting;
@@ -590,13 +591,13 @@ class SuperAdminController extends Controller
     public function knowledgebase(Request $request){
       $details = $request->all();
       $getData = knowledgeBase::all();
-      return view('admin/knowledgebase', compact('details','getData'));
+      return view('admin.knowledgebase', compact('details','getData'));
      // return redirect()->to('knowledge_base')->with('success','Customer query replied!');
   }
 
   public function addknowledgebase(Request $request){
     $details = $request->all();
-    return view('admin/add-knowledgebase', compact('details'));
+    return view('admin.add-knowledgebase', compact('details'));
    // return redirect()->to('knowledge_base')->with('success','Customer query replied!');
 }
 
@@ -606,7 +607,7 @@ public function editknowledgebase($id){
 
   $details ='';
   $getData = knowledgeBase::where('id',$id)->get();
-  return view('admin/add-knowledgebase', compact('details','getData'));
+  return view('admin.add-knowledgebase', compact('details','getData'));
  // return redirect()->to('knowledge_base')->with('success','Customer query replied!');
 }
 
@@ -647,11 +648,53 @@ public function submitknowledgebase(Request $request){
   }
 
   
-public function deleteknowledgebase($id){
-  $productid=knowledgeBase::findOrFail($id);
-  $productid->delete();
-  return back()
+  public function deleteknowledgebase($id){
+    $productid=knowledgeBase::findOrFail($id);
+    $productid->delete();
+    return back()
+        ->with('success', 'Record deleted successfully');
+  }
+
+
+
+  public function support(Request $request){
+    
+    $getData = Support::all();
+    $openTicket =Support::where('status','4')->get()->count();
+    $closedTicket =Support::where('status','3')->get()->count();
+    return view('admin.support', compact('openTicket','closedTicket','getData'));
+  // return redirect()->to('knowledge_base')->with('success','Customer query replied!');
+  }
+
+ 
+    public function editsupport($id){
+    $details ='';
+    $getData = Support::where('id',$id)->get();
+    return view('admin.edit-support', compact('details','getData'));
+    // return redirect()->to('knowledge_base')->with('success','Customer query replied!');
+    }
+
+    public function submitsupport(Request $request){
+    
+    $request->validate([
+      'description' => ['required'],
+      'image' => 'image|mimes:jpeg,png,jpg,gif,svg|max:2048',
+    ]);
+
+
+    $getData = Support::updateOrCreate(['id' => $request->table_id], [
+            "status" => $request->status,
+            "desciption" => $request->description,
+    ]);
+    return redirect('support')->with('success', 'Submitted!!!');
+    }
+
+    public function deletesupport($id){
+      $productid=Support::findOrFail($id);
+      $productid->delete();
+      return back()
       ->with('success', 'Record deleted successfully');
-}
+    }
+
 
 }

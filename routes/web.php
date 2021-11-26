@@ -81,6 +81,10 @@ Route::get('/add-knowledge_base',[SuperAdminController::class, 'addknowledgebase
 Route::post('/submit-knowlegebase',[SuperAdminController::class, 'submitknowledgebase']);
 Route::get('/edit-knowledge_base/{id}',[SuperAdminController::class, 'editknowledgebase']);
 Route::get('/delete-knowledge_base/{id}',[SuperAdminController::class, 'deleteknowledgebase']);
+Route::get('/support',[SuperAdminController::class, 'support'])->name('support');
+Route::post('/submit-support',[SuperAdminController::class, 'submitsupport']);
+Route::get('/edit-support/{id}',[SuperAdminController::class, 'editsupport']);
+Route::get('/delete-support/{id}',[SuperAdminController::class, 'deletesupport']);
 Route::get('logout-admin', function ()
 {
     auth()->logout();
@@ -93,7 +97,7 @@ Route::get('logout-admin', function ()
 Route::group(
     [
         'domain' => '{subdomain}.' . 'afdalanalytics.local',
-        'middleware' => ['tenant.domain','configure.multi_tenant_db'],
+        'middleware' => 'tenant.domain',
         'as' => 'tenant.'
     ], function () {
 Route::get('login', [TwitterController::class,'index']);
@@ -118,7 +122,9 @@ Route::get('/pricing',[TenantController::class, 'pricing'])->name('pricing');
 Route::get('/twitterperformance',[TenantController::class, 'twitterperformance'])->name('twitterperformance');
 Route::get('/googleplaystore',[TenantController::class, 'googleplaystore'])->name('googleplaystore');
 Route::get('/instagraminsight',[TenantController::class, 'instagraminsight'])->name('instagraminsight');
-Route::post('/updateprofile', [UserProfileController::class, 'updateUserProfile']);
+Route::post('/update-tenant-profile', [UserProfileController::class, 'updateUserProfile'])->name('update-tenant-profile');
+Route::post('/submit-ticket', [UserProfileController::class, 'submitTicket'])->name('submit-ticket');
+Route::get('/ticketdetail/{id}',[UserProfileController::class, 'ticketDetail']);
 // Route::post('/createnewticket', [UserProfileController::class, 'createNewTicket']);
 
 }

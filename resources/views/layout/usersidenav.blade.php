@@ -12,16 +12,17 @@
                   <ul>
                      <li>
                         <a href="{{ url('userhome') }}">
-                        <i class="fas fa-book"></i>
+                        <i class="fas fa-home"></i>
                         <span class="show-menu-name">Home</span>
                         </a>
                      </li>
-                     <li>
-                        <a href="{{ url('dashboard') }}">
-                        <i class="fas fa-chart-bar"></i>
-                        <span class="show-menu-name">Dashboard</span>
-                        </a>
-                     </li>
+                     <li class="seprate-menu"></li>
+                     <!--<li>-->
+                     <!--   <a href="{{ url('dashboard') }}">-->
+                     <!--   <i class="fas fa-signal"></i>-->
+                     <!--   <span class="show-menu-name">Dashboard</span>-->
+                     <!--   </a>-->
+                     <!--</li>-->
                      <li>
                         <a href="{{ url('template') }}">
                         <i class="fas fa-box"></i>
@@ -34,6 +35,9 @@
                         <span class="show-menu-name">Connection</span>
                         </a>
                      </li>
+
+                     <li class="seprate-menu"></li>
+                     
                      <li>
                         <a href="{{ url('settings') }}">
                         <i class="fas fa-cog"></i>

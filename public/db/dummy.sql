@@ -55,16 +55,30 @@ ALTER TABLE `migrations`
   MODIFY `id` int(10) UNSIGNED NOT NULL AUTO_INCREMENT;
 
 --
--- Table structure for table `tenant_user`
+-- Table structure for table `tenant_user` 
 --
 
-CREATE TABLE `tenant_user` (
-  `id` int UNSIGNED NOT NULL,
-  `name` varchar(255) COLLATE utf8mb4_unicode_ci NOT NULL,
+CREATE TABLE `tenant_users` (
+  `id` int NOT NULL AUTO_INCREMENT,
+  `first_name` varchar(255) COLLATE utf8mb4_unicode_ci NOT NULL,
+  `last_name` varchar(255) COLLATE utf8mb4_unicode_ci NOT NULL,
   `email` varchar(255) COLLATE utf8mb4_unicode_ci NOT NULL,
-  `description` varchar(255) COLLATE utf8mb4_unicode_ci NOT NULL,
+  `phone_number` varchar(255) COLLATE utf8mb4_unicode_ci NULL,
+  `password` varchar(255) COLLATE utf8mb4_unicode_ci NOT NULL,
+  `company` varchar(255) COLLATE utf8mb4_unicode_ci NOT NULL,
+  `role` varchar(255) COLLATE utf8mb4_unicode_ci NOT NULL,
+  `database_name` varchar(255) COLLATE utf8mb4_unicode_ci NOT NULL,
+  `provider` varchar(255) COLLATE utf8mb4_unicode_ci NULL,
+  `provider_id` varchar(255) COLLATE utf8mb4_unicode_ci NULL,
+  `street_address` varchar(255) COLLATE utf8mb4_unicode_ci NULL,
+  `city` varchar(255) COLLATE utf8mb4_unicode_ci NULL,
+  `postal_code` varchar(255) COLLATE utf8mb4_unicode_ci NULL,
+  `country` varchar(255) COLLATE utf8mb4_unicode_ci NULL,
+  `timezone` varchar(255) COLLATE utf8mb4_unicode_ci NULL,
+  `website_url` varchar(255) COLLATE utf8mb4_unicode_ci NULL,
   `status` tinyint(1) NOT NULL,
   `created_at` timestamp NULL DEFAULT NULL,
-  `updated_at` timestamp NULL DEFAULT NULL
+  `updated_at` timestamp NULL DEFAULT NULL,
+   PRIMARY KEY (id)
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_unicode_ci;
 

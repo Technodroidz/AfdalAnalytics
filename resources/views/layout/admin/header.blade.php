@@ -203,6 +203,8 @@
                      <li><a class="waves-effect waves-dark" href="{{ url('newsfeed') }}" aria-expanded="false"><i class="fas fa-file"></i><span class="hide-menu">News Feed</span></a></li>
                      <li>
                      <li><a class="waves-effect waves-dark" href="{{ url('knowledge_base') }}" aria-expanded="false"><i class="fas fa-file"></i><span class="hide-menu">Knowledge Base</span></a></li>
+
+                     <li><a class="waves-effect waves-dark" href="{{ url('support') }}" aria-expanded="false"><i class="fas fa-file"></i><span class="hide-menu">Support</span></a></li>
                      <li>
                         <a class="has-arrow waves-effect waves-dark" href="javascript:void(0)" aria-expanded="false"><i class="fas fa-cog"></i><span class="hide-menu">Setting</span></a>
                         <ul aria-expanded="false" class="collapse">

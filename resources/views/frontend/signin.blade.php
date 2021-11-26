@@ -4,7 +4,7 @@
       <meta charset="utf-8">
       <meta name="viewport" content="width=device-width, initial-scale=1, shrink-to-fit=no">
       <meta http-equiv="x-ua-compatible" content="ie=edge">
-      <title>CrmJoy Login</title>
+      <title>{{__('Login')}}</title>
       <meta name="description" content="">
       <meta name="keywords" content="">
       <link rel="icon" type="image/png" href="">
@@ -12,6 +12,28 @@
       <link href="{!!asset('public/assets/css/bootstrap.min.css')!!}" rel="stylesheet">
       <link href="{!!asset('public/assets/css/mdb.min.css')!!}" rel="stylesheet">
       <link href="{!!asset('public/assets/css/style.css')!!}" rel="stylesheet">
+      <style>
+          body {overflow-x: hidden;}
+          .form-check-input{
+            position: absolute;
+            margin-top: 0rem;
+            margin-left: -1.25rem;
+            width: 1.3em;
+            height: 1.3em;
+            background-color: white;
+            border-radius: 50%;
+            vertical-align: middle;
+            border: 1px solid #ddd;
+            appearance: none;
+            -webkit-appearance: none;
+            outline: none;
+            cursor: pointer;
+         }
+         .form-check-input:checked {
+            background-color: #f48a1d;
+            border: 1px solid #f48a1d;
+        }
+      </style>
    </head>
    <body>
       <nav class="navbar navbar-expand-lg shadow">
@@ -23,26 +45,31 @@
             
                <ul class="navbar-nav mx-auto">
                   <li class="nav-item">
-                     <a class="nav-link" href="{{ url('contactus') }}">Contact Us</a>
+                     <a class="nav-link" href="{{ url('contactus') }}">{{__('Contact Us')}}</a>
+                  </li>
+                  <li class="nav-item dropdown">
+                     <a class="nav-link dropdown-toggle" href="#" data-toggle="dropdown">{{__('Resources')}} <b class="caret"></b></a>
+                     <ul class="dropdown-menu">
+                        <li><a href="#">Action</a></li>
+                        <li><a href="#">Another action</a></li>
+                        <li><a href="#">Something else here</a></li>
+                      </ul>
                   </li>
                   <li class="nav-item">
-                     <a class="nav-link" href="#">Resources</a>
+                     <a class="nav-link" href="{{ url('pricing') }}">{{__('Pricing')}}</a>
                   </li>
                   <li class="nav-item">
-                     <a class="nav-link" href="{{ url('pricing') }}">Pricing</a>
+                     <a class="nav-link" href="#">{{__('Why Afdal Analytics')}}</a>
                   </li>
                   <li class="nav-item">
-                     <a class="nav-link" href="#">Why Afdal</a>
+                     <a class="nav-link" href="{{ url('product') }}">{{__('Product')}}</a>
                   </li>
                   <li class="nav-item">
-                     <a class="nav-link" href="{{ url('product') }}">Product</a>
-                  </li>
-                  <li class="nav-item">
-                     <a class="nav-link" href="{{ url('home') }}">Home</a>
+                     <a class="nav-link" href="{{ url('home') }}">{{__('Home')}}</a>
                   </li>
                </ul>
             </div>
-            <a class="navbar-brand font-weight-bold text-white" href="{{ url('home') }}">Afdal Analytics<img src="{!!asset('public/assets/image/logoicon.png')!!}" height="40" class="ml-2"></a>
+            <a class="navbar-brand font-weight-bold text-white" href="{{ url('home') }}">{{__('Afdal Analytics')}}<img src="{!!asset('public/assets/image/logoicon.png')!!}" height="40" class="ml-2"></a>
          </div>
       </nav>
       <div class="login-bg">
@@ -71,14 +98,14 @@
                <div class="col-lg-5 col-sm-6 col-12 mx-auto">
                   <form class="mt-3" action="{{url('login')}}" method="post">
                      @csrf
-                     <h3 class="text-center text-white">Welcome</h3>
-                     <p class="text-center text-white">Not an user? <a href="{{ url('signup') }}" class="text-white"><u>Signup</u></a></p>
+                     <h3 class="text-center text-white">{{__('Welcome')}}</h3>
+                     <p class="text-center text-white">{{__('Not an user?')}} <a href="{{ url('signup') }}" class="text-white"><u style="color:#f48a1d;">Signup</u></a></p>
                      <div class="form-group text-right">
-                        <label class="d-block text-white">Email</label>
+                        <label class="d-block text-white">{{__('Email')}}</label>
                         <input type="text" name="email" class="form-control text-right" placeholder="name@company.com">
                      </div>
                      <div class="form-group text-right">
-                        <label class="d-block text-white">Password <span class="float-left"><a href="#" class="text-warning"><i class="fas fa-eye mr-2"></i>Show</a></span></label>
+                        <label class="d-block text-white">{{__('Password')}} <span class="float-left"><a href="javascript:void(0);" class="text-warning"><i class="fas fa-eye mr-2"></i>{{__('Show')}}</a></span></label>
                         <input type="password" name="password" class="form-control text-right" placeholder="Password">
                      </div>
                      <div class="row">
@@ -89,14 +116,14 @@
                         </div> -->
                         <div class="col-12">
                            <div class="form-group form-check text-right">
-                              <label class="form-check-label text-white mr-5" for="exampleCheck1">I agree to the Afdal Analytics Terms.</label>
+                              <label class="form-check-label text-white mr-5" for="exampleCheck1">{{__('Keep me signed in.')}}</label>
                               <input type="checkbox" name="terms" class="form-check-input" id="exampleCheck1">
                            </div>
                         </div>
                      </div>
                      <div class="form-group text-center mt-3">
-                        <!-- <a href="javascript::void(0)" class="btn btn-warning btn-md">Log In</a> -->
-                        <button type="submit" class="btn btn-warning btn-md">{{__('Log In')}}</button>
+                        <!--<a href="{{ url('userhome') }}" class="btn btn-warning btn-md">{{__('Log In')}}</a>-->
+                         <button type="submit" class="btn btn-warning btn-md">{{__('Log In')}}</button>
                      </div>
                   </form>
                </div>
@@ -107,7 +134,7 @@
          <div class="row kpx_loginOr">
             <div class="col-lg-5 col-sm-6 col-12 mx-auto">
                <hr class="kpx_hrOr">
-               <span class="kpx_spanOr">Or, sign in with</span>
+               <span class="kpx_spanOr">{{__('Or, sign in with')}}</span>
             </div>
          </div>
          <div class="row">
@@ -124,5 +151,22 @@
       <script type="text/javascript" src="{!!asset('public/assets/js/popper.min.js')!!}"></script>
       <script type="text/javascript" src="{!!asset('public/assets/js/bootstrap.min.js')!!}"></script>
       <script type="text/javascript" src="{!!asset('public/assets/js/mdb.min.js')!!}"></script>
+      <script>
+          $('navbar-nav li.dropdown').hover(function() {
+              $(this).find('.dropdown-menu').stop(true, true).delay(200).fadeIn(500);
+            }, function() {
+              $(this).find('.dropdown-menu').stop(true, true).delay(200).fadeOut(500);
+            });
+            
+            $(".float-left a.text-warning").click(function() {
+                $(this).find('i').toggleClass("fa-eye-slash");
+                input = $(this).parent().parent().parent().find("input");
+                if (input.attr("type") == "password") {
+                    input.attr("type", "text");
+                } else {
+                    input.attr("type", "password");
+                }
+            });
+      </script>
    </body>
 </html>

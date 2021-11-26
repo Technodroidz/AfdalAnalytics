@@ -53,7 +53,7 @@
                               </div>
                               <div class="col-lg-7 col-sm-6 col-12">
                                  <div class="final-form-link text-right">
-                                    <span><a href="#" class="back">{{__('Add More Connections')}}</a></span>
+                                    <span><a href="{{url('signup-2')}}" class="back">{{__('Add More Connections')}}</a></span>
                                  </div>
                               </div>
                            </div>

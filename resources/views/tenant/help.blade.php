@@ -48,6 +48,19 @@
                </ul>
             </div>
          </nav>
+         @if ($message = Session::get('success'))
+               <div class="alert alert-success alert-block">
+                  <button type="button" class="close" data-dismiss="alert">×</button>    
+                  <strong>{{ $message }}</strong>
+               </div>
+             @endif
+
+            @if ($message = Session::get('error'))
+               <div class="alert alert-danger alert-block">
+                  <button type="button" class="close" data-dismiss="alert">×</button>    
+                  <strong>{{ $message }}</strong>
+               </div>
+            @endif
          <div class="row">
             <div class="col-lg-12 col-sm-12 col-12">
                <div class="dashboard-tabs">
@@ -121,15 +134,18 @@
                                           <h6 class="m-0 text-right"><b>Status</b></h6>
                                        </div>
                                     </div>
+                                    <?php if(!empty($ticketdetails)) {
+                                       foreach($ticketdetails as $value) {
+                                    ?>      
                                     <div class="table-responsive-card ">
                                        <div class="card-table34">
-                                          <p class="m-0 text-right">DH626EN602</p>
+                                          <p class="m-0 text-right">{{$value['user_id']}}</p>
                                        </div>
                                        <div class="card-table35">
-                                          <p class="m-0 text-right"><a href="{{ url('ticketdetail') }}" class="theme-color"><u>Cannot sign in on my account after changing email adress</u></a></p>
+                                          <p class="m-0 text-right"><a href="{{url('ticketdetail',$value['id'])}}" class="theme-color"><u>{{$value['desciption']}}</u></a></p>
                                        </div>
                                        <div class="card-table36">
-                                          <p class="m-0 text-right">26-08-2021</p>
+                                          <p class="m-0 text-right">{{date('d/m/Y h:i A',strtotime($value['created_at']))}}</p>
                                        </div>
                                        <div class="card-table37">
                                           <p class="m-0 text-right">1 day ago</p>
@@ -146,7 +162,8 @@
                                           </div>
                                        </div>
                                     </div>
-                                    <div class="table-responsive-card ">
+                                    <?php } } ?>
+                                    <!-- <div class="table-responsive-card ">
                                        <div class="card-table34">
                                           <p class="m-0 text-right">DH626EN602</p>
                                        </div>
@@ -170,8 +187,8 @@
                                             </div>
                                           </div>
                                        </div>
-                                    </div>
-                                    <div class="table-responsive-card ">
+                                    </div> -->
+                                    <!-- <div class="table-responsive-card ">
                                        <div class="card-table34">
                                           <p class="m-0 text-right">DH626EN602</p>
                                        </div>
@@ -195,8 +212,8 @@
                                             </div>
                                           </div>
                                        </div>
-                                    </div>
-                                    <div class="table-responsive-card ">
+                                    </div> -->
+                                    <!-- <div class="table-responsive-card ">
                                        <div class="card-table34">
                                           <p class="m-0 text-right">DH626EN602</p>
                                        </div>
@@ -220,8 +237,8 @@
                                             </div>
                                           </div>
                                        </div>
-                                    </div>
-                                    <div class="table-responsive-card ">
+                                    </div> -->
+                                    <!-- <div class="table-responsive-card ">
                                        <div class="card-table34">
                                           <p class="m-0 text-right">DH626EN602</p>
                                        </div>
@@ -245,8 +262,8 @@
                                             </div>
                                           </div>
                                        </div>
-                                    </div>
-                                    <div class="table-responsive-card ">
+                                    </div> -->
+                                    <!-- <div class="table-responsive-card ">
                                        <div class="card-table34">
                                           <p class="m-0 text-right">DH626EN602</p>
                                        </div>
@@ -270,8 +287,8 @@
                                             </div>
                                           </div>
                                        </div>
-                                    </div>
-                                    <div class="table-responsive-card ">
+                                    </div> -->
+                                    <!-- <div class="table-responsive-card ">
                                        <div class="card-table34">
                                           <p class="m-0 text-right">DH626EN602</p>
                                        </div>
@@ -295,7 +312,7 @@
                                             </div>
                                           </div>
                                        </div>
-                                    </div>
+                                    </div> -->
                                  </div>
                               </div>
                            </div>
@@ -306,6 +323,8 @@
                      </div>
                      <div class="create-ticket-new-row mt-3">
                         <div class="row">
+                           <form class="mt-3" action="{{url('submit-ticket')}}" method="post">
+                              @csrf
                            <div class="col-12">
                               <div class="card">
                               <div class="card-body">
@@ -313,14 +332,14 @@
                                     <div class="col-lg-4 col-sm-4 col-12">
                                     <div class="form-group">
                                        <label class="d-block text-right"><small>Subject</small></label>
-                                       <input type="text" class="form-control border">
+                                       <input type="text" name="title" class="form-control border">
                                     </div>
                                  </div>
 
                                  <div class="col-lg-4 col-sm-4 col-12">
                                     <div class="form-group">
                                        <label class="d-block text-right"><small>Choose Department</small></label>
-                                       <select class="form-control border bg-gray">
+                                       <select class="form-control border bg-gray" name="department">
                                           <option>Tech Support</option>
                                           <option>Sales</option>
                                           <option>Billing</option>
@@ -333,7 +352,7 @@
                                        <label class="d-block text-right"><small>Attachment</small></label>
                                        <div class="upload-btn-wrapper">
                                           <button class="file-upload-button">Choose File</button>
-                                          <input type="file" name="myfile" />
+                                          <input type="file" name="image" />
                                           No file chosen
                                        </div>
                                        <label class="d-block text-right"><small>(Alowed File Extensions: .jpg, .gif, jpeg, .png)</small></label>
@@ -343,17 +362,18 @@
                                  <div class="col-12">
                                     <div class="form-group">
                                        <label class="d-block text-right"><small>Message</small></label>
-                                       <textarea class="form-control border" rows="4"></textarea>
+                                       <textarea class="form-control border" rows="4" name="description"></textarea>
                                     </div>
                                  </div>
                                  <div class="col-12">
                                     <button class="btn btn-sm close-ticket">Cancel</button>
-                                    <button class="btn btn-warning btn-sm submit-ticket">Submit</button>
+                                    <button type="submit" class="btn btn-warning btn-sm submit-ticket">Submit</button>
                                  </div>
                                  </div>
                               </div>
                            </div>
-                           </div>
+                            
+                           </div> </form>
                         </div>
                      </div>
                   </div>
@@ -371,19 +391,23 @@
                               </div>
                            </div>
                            <!--{{ url('knowledgedetail') }}-->
+                           <?php if(!empty($details)){ 
+                                foreach($details as $val) {
+                              ?>
                             <a href="javascript:void(0);" class="mt32" id="one">
                            <div class="base-{{__('Help')}}-row mt-3">
                               <div class="{{__('Help')}}-row-col1">
                                  <span class="shadow"><i class="fas fa-check-circle"></i></span>
                               </div>
                               <div class="{{__('Help')}}-row-col2">
-                                 <h6 class="m-0"><b>Getting Started & The Basics</b></h6>
-                                 <p class="m-0">Easy steps for setting up your Afdal Analytics account and learning your way around</p>
+                                 <h6 class="m-0"><b>{{$val->title}}</b></h6>
+                                 <p class="m-0">{{$val->description}}</p>
                               </div>
                            </div>
                            </a>
+                           <?php } } ?>
                            <!--{{ url('knowledgedetail') }}-->
-                        <a href="javascript:void(0);" class="mt32" id="two">
+                        <!-- <a href="javascript:void(0);" class="mt32" id="two">
                            <div class="base-{{__('Help')}}-row mt-3">
                               <div class="{{__('Help')}}-row-col1">
                                  <span class="shadow"><i class="fas fa-desktop"></i></span>
@@ -393,9 +417,9 @@
                                  <p class="m-0">Learn how to visualize data, configure dashboards and use pre configure templates that wow</p>
                               </div>
                            </div>
-                        </a>
+                        </a> -->
                         <!--{{ url('knowledgedetail') }}-->
-                        <a href="javascript:void(0);" class="mt32" id="three">
+                        <!-- <a href="javascript:void(0);" class="mt32" id="three">
                            <div class="base-{{__('Help')}}-row mt-3">
                               <div class="{{__('Help')}}-row-col1">
                                  <span class="shadow"><i class="fas fa-users"></i></span>
@@ -405,9 +429,9 @@
                                  <p class="m-0">Bring your sta on board and get them access to the insight to drive performance</p>
                               </div>
                            </div>
-                        </a>
+                        </a> -->
                         <!--{{ url('knowledgedetail') }}-->
-                        <a href="javascript:void(0);" class="mt32" id="four">
+                        <!-- <a href="javascript:void(0);" class="mt32" id="four">
                            <div class="base-{{__('Help')}}-row mt-3">
                               <div class="{{__('Help')}}-row-col1">
                                  <span class="shadow"><i class="fas fa-sync"></i></span>
@@ -417,9 +441,9 @@
                                  <p class="m-0">Learn more about setting up connections in Afdal Analytics and how data is collected.</p>
                               </div>
                            </div>
-                        </a>
+                        </a> -->
                         <!--{{ url('knowledgedetail') }}-->
-                        <a href="javascript:void(0);" class="mt32" id="five">
+                        <!-- <a href="javascript:void(0);" class="mt32" id="five">
                            <div class="base-{{__('Help')}}-row mt-3">
                               <div class="{{__('Help')}}-row-col1">
                                  <span class="shadow"><i class="fas fa-cog"></i></span>
@@ -429,7 +453,7 @@
                                  <p class="m-0">Learn how to administrate your accounts, access invoices and more</p>
                               </div>
                            </div>
-                        </a>
+                        </a> -->
                         </div>
                         <div class="col-lg-8 col-sm-6 col-12">
                            <div class="default">

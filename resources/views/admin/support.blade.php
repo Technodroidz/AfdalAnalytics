@@ -1,6 +1,6 @@
 @extends('layout.admin.header')
 
-@section('title', 'Afdal Analytics knowledge base')
+@section('title', 'Afdal Analytics Support base')
 
 @section('content')
 
@@ -9,8 +9,7 @@
    <div class="container-fluid">
       <div class="row page-titles">
          <div class="col-md-5 align-self-center">
-            <h4 class="text-themecolor">Knowledge Base</h4> <br>
-            <a href="{{asset('add-knowledge_base')}}"> <h2 class="text-themecolor">Add knowledge base</h2> </a>
+            <h4 class="text-themecolor">Support</h4> <br>
          </div>
          
       </div>
@@ -43,14 +42,19 @@
                   <div class="col-12">
                      <div class="card">
                         <div class="card-body">
+                        <p class="login-box-msg">Close Ticket: {{$openTicket}}</p>
+                        <p class="login-box-msg">Open  Ticket: {{$closedTicket}}</p>
                            <div class="table-responsive rounded-5 shadow">
                               <table id="config-table" class="table display no-wrap" width="100%">
                                  <thead>
                                     <tr>
                                        <th>Sr. Number</th>
-                                       <th>Title</th>
-                                       <th>Description</th>
-                                       <th>Icon</th>
+                                       <th>User ID</th>
+                                       <th>Department Name</th>
+                                       <th>Ticket Title</th>
+                                       <th>Date Created</th>
+                                       <th>Last Activety</th>
+                                       <th>Status</th>
                                        <th>Action</th>
                                     </tr>
                                  </thead>
@@ -59,11 +63,23 @@
                                   @foreach($getData as $key=>$list) 
                                     <tr>
                                        <td>{{++$key}}</td>
+                                       <td>{{@$list->user_id}}</td>
+                                       <td>{{@$list->department}}</td>
                                        <td>{{@$list->title}}</td>
-                                       <td>{{@$list->description}}</td>
-                                       <td><img src="{{asset('public/images/knowlage-images').'/'.$list->image}}" height="50px" width="100px" ></td>
-                                       <td> <a href="{{ URL('edit-knowledge_base', $list->id) }}" class="text-danger">Edit</a>
-                                       <a href="{{ URL('delete-knowledge_base', $list->id) }}" class="delete-record btn btn-danger btn-sm" data-value="{{$list}}">
+                                       <td>{{@$list->created_at}}</td>
+                                       <td>{{@$list->updated_at}}</td>
+                                       <td>@if($list->status==1) Open
+                                       @elseif($list->status==2) Successful
+                                       @elseif($list->status==3)Open Ticket
+                                       @elseif($list->status==4)Pending Ticket
+                                       @else
+
+                                       @endif
+                                       
+                                       </td>
+                                       <td>
+                                        <a href="{{ URL('edit-support', $list->id) }}" class="text-danger">Edit</a>
+                                       <a href="{{ URL('delete-support', $list->id) }}" class="delete-record btn btn-danger btn-sm" data-value="{{$list}}">
                                           <i class="fa fa-trash" aria-hidden="true"></i>
                                        </a>
                                        </td>
@@ -71,7 +87,11 @@
                                     @endforeach
                                     @endif
                                        <tr>
-                                       
+                                       <td colspan="7" style="white-space: normal;">
+                                          <h4><b>Ticket Message</b></h4>
+                                          <p class="m-0">{{@$details->ticket_message}}
+                                          </p>
+                                       </td>
                                     </tr>
                                     <tbody id="show-on-click-ryply-button" style="display:none;">
                                        <tr>
@@ -90,6 +110,7 @@
                                        </tr>
                                        
                                     </tbody>
+                                    
                                  
                                  
                                  </tbody>

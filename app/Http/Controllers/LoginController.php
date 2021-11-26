@@ -13,6 +13,7 @@ use Illuminate\Support\Facades\Artisan;
 use App\Console\Commands\TenantsMigrateCommand;
 use App\Models\User;
 use App\Models\Tenant;
+use App\Models\TenantUser;
 use App\Models\SubscriptionPlan;
 use App\Models\UserSubscription;
 use Illuminate\Support\Facades\DB;
@@ -22,6 +23,8 @@ use Twitter;
 use Cookie;
 use Abraham\TwitterOAuth\TwitterOAuth;
 use Symfony\Component\HttpFoundation\File\File;
+use Illuminate\Support\Facades\Mail;
+use App\Mail\SignupMail;
 
 class LoginController extends Controller
 {
@@ -36,7 +39,7 @@ class LoginController extends Controller
                 //'last_name'     => 'required',
                 'email'         => 'required|email|unique:users',
                 'password'      => 'required|min:6',
-                'company'       => 'required',
+                'company'       => 'required|unique:users',
                 'working_as'    => 'required',
                 'terms'         => 'required'
             ];
@@ -131,7 +134,32 @@ class LoginController extends Controller
                         'subscription_status' => 'trial',
                         'created_at'    => date('Y-m-d H:i:s'),
                     ];
+
+                    $tenantdata = [
+                        'first_name'      => $request->first_name,
+                        'last_name'   => $request->last_name,
+                        'email'       => $request->email,
+                        'password'    => bcrypt($request->password),
+                        'company'     => $request->company,
+                        'role'        => "admin",
+                        'database_name' => $userName,
+                        'status' => "1"
+                    ];
+                    $res = TenantUser::create($tenantdata);
+
+                     /*---------code to send email -----*/
+			     
+                        $mailData = [
+                            'title' => 'Login Details',
+                            'body' => 'Your subdomain is : '.$request->company.'.afdalanalytics.com/signin'.'</br>'.
+                                       'With email : '.$request->email.' and password : '.$request->password
+                        ];
+                
+                    $res =  Mail::to($request->email)->send(new \App\Mail\SignupMail($mailData));
+                    /*---------code to send email -----*/
                     $request->session()->put('company',$request->company);
+                    $request->session()->put('database',$userName);
+                    $request->session()->put('email',$request->email);
                     $request->session()->put('long_token',$long_token);
                     $request->session()->put('short_token',$short_token);
                     UserSubscription::insert($insert_array);
@@ -159,6 +187,7 @@ class LoginController extends Controller
 
     public function tenantRedirect(Request $request){
         $company = session()->get('company');
+        //print_r($company);die;
         return redirect()->route('tenant.userhome', ['subdomain' => $company]);
     }
 
@@ -168,13 +197,13 @@ class LoginController extends Controller
             $validation_array = [
                 'email'         => 'required|email',
                 'password'      => 'required',
-                'terms'         => 'required'
+                //'terms'         => 'required'
             ];
 
             $validation_attributes = [
                 'email'         => 'Email',
                 'password'      => 'Password',
-                'terms'         => 'Afdal Analytics Terms'
+               // 'terms'         => 'Afdal Analytics Terms'
             ];
 
             $validator = Validator::make($request->all(), $validation_array,[],$validation_attributes);
@@ -189,7 +218,7 @@ class LoginController extends Controller
                     $paid_subscription  = UserSubscription::getPaidSubscription(Auth::User()->id);
                     $user_subscribed    = true;
                     $userdetails = User::where('id', Auth::User()->id)->first();
-
+                    // print_r($userdetails);die;
                     if(empty($paid_subscription) && empty($trial_subscription)){
                         $user_subscribed    = false;
                     }else{
@@ -207,12 +236,16 @@ class LoginController extends Controller
                     if($user_subscribed == true){
                         session()->put('user_subscribed',true);
                         $request->session()->put('company',$userdetails->company);
+                        $request->session()->put('database',$userdetails->database_name);
+                        $request->session()->put('email',$userdetails->email);
                         $request->session()->put('long_token',$userdetails->long_token);
                         $request->session()->put('short_token',$userdetails->short_token);
                         return redirect()->route('tenant.userhome', ['subdomain' => $userdetails->company]);
                     }else{
                         session()->put('user_subscribed',false);
                         $request->session()->put('company',$userdetails->company);
+                        $request->session()->put('database',$userdetails->database_name);
+                        $request->session()->put('email',$userdetails->email);
                         $request->session()->put('long_token',$userdetails->long_token);
                         $request->session()->put('short_token',$userdetails->short_token);
                         session()->put('error', '<p>You plan has been expired.<a style="color: blue" href ="'.route('business_setting_upgrade_plan').'" >Subscribe</a> to use our services</p>');

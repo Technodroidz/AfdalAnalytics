@@ -9,7 +9,7 @@
    <div class="container-fluid">
       <div class="row page-titles">
          <div class="col-md-5 align-self-center">
-            <h4 class="text-themecolor">knowledge base</h4>
+            <h4 class="text-themecolor">Support</h4>
          </div>
          
       </div>
@@ -43,33 +43,29 @@
                 <div class="row">
                     <div class="col-md-12">
                         <div class="register-box-body">
-                            <p class="login-box-msg">Knowledge Base</p>
-                            <form id="add_form" action="{{asset('submit-knowlegebase')}}" method="post" enctype="multipart/form-data">
+                            <p class="login-box-msg">Support</p>
+                            <form id="add_form" action="{{asset('submit-support')}}" method="post" enctype="multipart/form-data">
                                 @csrf
                                 <div class="row">
                                 <div class="col-xs-6">
                                 <div class="form-group has-feedback">
-                                    <input type="text" class="form-control" id="title" name="title" value="{{@$getData['0']['title']}}" placeholder="Enter title">
-                                    <span class="glyphicon glyphicon-user form-control-feedback"></span>
+                                <lable>Department name</lable>
+                                <p> {{@$getData['0']['department']}} </p>
                                 </div>
                                 </div>
-                                <div class="col-xs-3">
-                                    <div class="form-group has-feedback ">
-                                        <input type="file" class="form-control" id="" name="image" >
-                                        <!-- <input type="hidden" value="{{@$getData['image']}}" name="u_image"> -->
-                                        <input type="hidden" id="upd_image" value="{{@$getData['0']['image']}}" name="u_image">
-                                    </div>
-                                 </div>
-                                 <div class="col-xs-3">
-                                    <div class="form-group has-feedback ">
-                                    <img class="profile-user-img img-responsive img-circle" height="50px" width="100px" src="{{asset('public/images/knowlage-images')}}/{{@$getData['0']['image']}}">
-                                    </div>
-                                    </div>
-                                 </div>
-                                
                                 <div class="col-xs-6">
                                 <div class="form-group has-feedback">
-                                <textarea name="description" id="description" cols="60" rows="5" placeholder="Short Description">{!! @$getData['0']['description'] !!}</textarea>
+                                <select id="status" name="status" >
+                                <option value="1"@if(@$getData['0']['status']=='1') selected @endif>Open</option>
+                                <option value="2" @if(@$getData['0']['status']=='2') selected @endif>Successful</option>
+                                <option  value="3" @if(@$getData['0']['status']=='3') selected @endif>Open Ticket</option>
+                                <option  value="4" @if(@$getData['0']['status']=='4') selected @endif>Pending Ticket</option>
+                                </select>
+                                </div>
+                                </div>
+                                <div class="col-xs-6">
+                                <div class="form-group has-feedback">
+                                <textarea name="description" class="sumnote" id="description" cols="60" rows="5" placeholder="Short Description">{!! @$getData['0']['description'] !!}</textarea>
                                 <span class="glyphicon glyphicon-user form-control-feedback"></span>
                                 </div>
                                 </div>
@@ -83,7 +79,7 @@
                                     <!-- /.col -->
                                     <div class="col-xs-4">
                                         <button type="submit" class="btn btn-primary btn-block btn-flat">Submit</button>
-                                        <a href="{{asset('knowledge_base')}}" class="btn btn-primary btn-block btn-flat">Back</a>
+                                        <a href="{{asset('support')}}" class="btn btn-primary btn-block btn-flat">Back</a>
                                     </div>
                             
                                 </div>
