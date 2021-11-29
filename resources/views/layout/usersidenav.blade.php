@@ -56,7 +56,7 @@
             </div>
             <!-- sidebar-content  -->
             <div class="sidebar-footer">
-               <a href="#" class="text-warning font-weight-bold">
+               <a href="{{url('logout-tenant')}}" class="text-warning font-weight-bold">
                <i class="fas fa-sign-out-alt ml-2"></i>
                <span class="show-menu-name">Sign Out</span>
                </a>

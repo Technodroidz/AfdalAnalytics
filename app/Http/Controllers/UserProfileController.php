@@ -118,5 +118,9 @@ class UserProfileController extends Controller
         return view('tenant.ticketdetails',compact('ticketdetails'));
     }
 
+    public function latestactivity(Request $request){
+        return view('tenant.latestactivity');
+    }
+
 
 }

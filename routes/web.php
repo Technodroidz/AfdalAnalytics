@@ -125,7 +125,15 @@ Route::get('/instagraminsight',[TenantController::class, 'instagraminsight'])->n
 Route::post('/update-tenant-profile', [UserProfileController::class, 'updateUserProfile'])->name('update-tenant-profile');
 Route::post('/submit-ticket', [UserProfileController::class, 'submitTicket'])->name('submit-ticket');
 Route::get('/ticketdetail/{id}',[UserProfileController::class, 'ticketDetail']);
+Route::get('/latestactivity',[UserProfileController::class, 'latestactivity'])->name('latestactivity');
 // Route::post('/createnewticket', [UserProfileController::class, 'createNewTicket']);
+Route::get('logout-tenant', function ()
+{
+    auth()->logout();
+    Session()->flush();
+
+    return Redirect::to('/signin');
+})->name('logout-tenant');
 
 }
 );
