@@ -35,6 +35,7 @@ Route::get('/signup-4',[LoginController::class, 'signup5'])->name('signup-4');
 Route::get('/tenantredirect',[LoginController::class, 'tenantRedirect']);
 Route::get('{provider}/callback', [LoginController::class,'handleProviderCallback']);
 Route::get('twitterwebhook', [LoginController::class,'twitterWebhook'])->name('twitterwebhook');
+Route::get('login/{provider}', [LoginController::class,'redirectToTwitter']);
 
 //admin routes
 Route::get('/admin',[SuperAdminController::class, 'signIn']);

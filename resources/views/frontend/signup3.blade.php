@@ -75,6 +75,7 @@
                                              </div>
                                           </label>
                                           <label>
+                                          <a href="{{ url('/login/twitter') }}"> 
                                              <input type="radio" name="product" class="card-input-element twitter-radio-element" />
                                              <div class="panel panel-default card-input">
                                                  <img src="https://freeiconshop.com/wp-content/uploads/edd/checkmark-flat.png" width="20" class="ch twittericon"/>
@@ -82,7 +83,7 @@
                                                    <img src="{!!asset('public/assets/image/twitter.svg')!!}">
                                                    <p style="margin:0">Twitter</p>
                                                 </div>
-                                             </div>
+                                             </div></a>
                                           </label>
                                           <label>
                                              <input type="radio" name="product" class="card-input-element linkedin-radio-element" />
@@ -122,7 +123,7 @@
                                  <p class="text-center text-white">{{__('Integrate your Instagram Page and gain valuable')}}<br>{{__('insight to help you grow')}}</p>
                                  </div>
                                  <div class="form-group text-center mar-b-0">        
-                                    <input type="button" value="NEXT" class="btn btn-warning btn-sm next ">        
+                                 <a href="{{url('signup-3')}}"><input type="button" value="NEXT" class="btn btn-warning btn-sm next "></a>        
                                  </div>
                               </form>
                            </div>

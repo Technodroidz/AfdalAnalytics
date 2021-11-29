@@ -257,6 +257,16 @@ class LoginController extends Controller
             }
        } 
     }
+
+    /**
+     * Redirect the user to the Twitter authentication page.
+     *
+     * @return Response
+    */
+    public function redirectToTwitter($provider)
+    {
+        return Socialite::driver('twitter')->redirect();
+    }
     
      /**
      * Obtain the user information from Twitter.
@@ -282,8 +292,9 @@ class LoginController extends Controller
            $request->session()->put('nickname', $user->nickname);
            $request->session()->put('avatar', $user->avatar);
          
-        $company = session()->get('company');
-        return redirect()->route('tenant.demo', ['subdomain' => $company]);
+        // $company = session()->get('company');
+        // return redirect()->route('tenant.demo', ['subdomain' => $company]);
+        return redirect()->route('signup-2');
     }
     
      /**
