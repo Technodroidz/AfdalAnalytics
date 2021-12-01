@@ -55,14 +55,15 @@
                                              </div>
                                           </label>
                                           <label>
-                                             <input type="radio" name="product" class="card-input-element facebook-radio-element" checked />
+                                          <a href="{{ url('/facebook/login') }}"> 
+                                             <input type="radio" name="product" class="card-input-element facebook-radio-element" checked/>
                                              <div class="panel panel-default card-input">
                                                  <img src="https://freeiconshop.com/wp-content/uploads/edd/checkmark-flat.png" width="20" class="ch fbicon" style="display:block;"/>
                                                 <div class="panel-body">
                                                    <img src="{!!asset('public/assets/image/facebook.svg')!!}">
                                                    <p style="margin:0">Facebook Page</p>
                                                 </div>
-                                             </div>
+                                             </div></a>
                                           </label>
                                           <label>
                                              <input type="radio" name="product" class="card-input-element google-radio-element" />

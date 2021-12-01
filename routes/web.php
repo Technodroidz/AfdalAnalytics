@@ -7,6 +7,7 @@ use App\Http\Controllers\SuperAdminController;
 use App\Http\Controllers\TwitterController;
 use App\Http\Controllers\TenantController;
 use App\Http\Controllers\UserProfileController;
+use App\Http\Controllers\FacebookController;
 
 /*
 |--------------------------------------------------------------------------
@@ -33,9 +34,12 @@ Route::get('/signup-2',[LoginController::class, 'signup3'])->name('signup-2');
 Route::get('/signup-3',[LoginController::class, 'signup4'])->name('signup-3');
 Route::get('/signup-4',[LoginController::class, 'signup5'])->name('signup-4');
 Route::get('/tenantredirect',[LoginController::class, 'tenantRedirect']);
-Route::get('{provider}/callback', [LoginController::class,'handleProviderCallback']);
+Route::get('twitter/callback', [LoginController::class,'handleProviderCallback']);
 Route::get('twitterwebhook', [LoginController::class,'twitterWebhook'])->name('twitterwebhook');
 Route::get('login/{provider}', [LoginController::class,'redirectToTwitter']);
+
+Route::get('facebook/login',[FacebookController::class,'facebookLogin']);
+Route::get('facebook/callback',[FacebookController::class,'facebookCallback']);
 
 //admin routes
 Route::get('/admin',[SuperAdminController::class, 'signIn']);
